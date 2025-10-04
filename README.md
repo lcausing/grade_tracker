@@ -1,1 +1,52 @@
-Insert -ReadMe-
+For Devs:
+
+Repository Branches:
+1. main - stable branch, used for final demo
+2. dev - our developer branch. This will be the branch we will use to update after each successful code edit and testing of certain parts. 
+3. dev_need_fix - This branch will be used to upload partial changes but still broken, so that other devs can take a look at the code if you need help.
+
+Notes:
+- Always work on the dev branch unless you are fixing a broken code in dev_need_fix.
+
+Contributing Code:
+1. Make sure to pull the latest changes from the dev branch before starting your work.
+    git pull
+2. Create a new branch from remote dev for your changes.
+    git checkout -b <branch-name> origin/dev
+    ex. git checkout -b mysql origin/dev
+    - This will create a new branch called mysql from the latest dev branch and switch to it.
+3. Point your new branch to a new remote branch of same name
+    git push --set-upstream origin <branch-name>
+    ex. git push --set-upstream origin mysql
+    - this will point your local new branch to remote mysql branch
+3. Make changes and then stage
+    git add <file-name>
+4. Test and commit your changes with a descriptive message
+    git commit -m "Descriptive message about what you changed"
+    - Make a habit of committing frequently with descriptive messages.
+5. Push your changes to the remote branch
+    git push
+
+Once all team members confirmed that it is working, we will merge the changes from your remote branch to the remote dev branch.
+
+6. Create a pull request (PR) from your remote branch to the remote dev branch on GitHub.
+    ex. from mysql to dev
+    - Open a pull request from mysql -> dev > create pull request. 
+    - If all is good and working and confirmed with team, will merge pull request > confirm merge
+
+This will update dev branch
+
+Now make sure to pull the latest changes from dev branch to your local dev branch
+    git checkout dev
+    git pull
+
+Once we get everything working and stable on dev branch, we will merge dev to main for final demo.
+
+
+Helpful Git Commands
+git status # check the status of your working directory
+git branch -r # list remote branches
+git branch -a # list all branches (local and remote)
+git checkout <branch-name> # switch to a branch
+git checkout -b <new-branch-name> origin/<existing-remote-branch> # create and switch to a new branch from an existing remote branch
+git push --set-upstream origin <branch-name> # point your local branch to a remote branch
