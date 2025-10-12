@@ -52,13 +52,19 @@ git checkout -b <new-branch-name> origin/<existing-remote-branch> # create and s
 git push --set-upstream origin <branch-name> # point your local branch to a remote branch
 
 MySQL test commands:
-cd mysql
-docker compose down -v
-docker compose up -d --build
+
+docker compose down -v # to stop and remove the mysql container and volume
+docker compose up -d --build # to start the mysql container in detached mode and build if necessary
+docker compose up -d # to start the mysql container without rebuilding the image
 
 appuser should have enough privileges to create or modify databases and tables.
-Test inserting a student
+
+Test inserting a student from host:
 docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "INSERT INTO students (name, email, grade) VALUES ('Test Student', 'Test@example.com', 93.7);"
 docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "SELECT * FROM students;"
+
+To Close down the mysql container
+docker compose down -v # -v will remove the volume and all data
+docker compose down # without -v will keep the volume and data
 
 Once we start to connect this to the backend, we will need to update the connection string in .env file
