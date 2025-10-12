@@ -50,3 +50,15 @@ git branch -a # list all branches (local and remote)
 git checkout <branch-name> # switch to a branch
 git checkout -b <new-branch-name> origin/<existing-remote-branch> # create and switch to a new branch from an existing remote branch
 git push --set-upstream origin <branch-name> # point your local branch to a remote branch
+
+MySQL test commands:
+cd mysql
+docker compose down -v
+docker compose up -d --build
+
+appuser should have enough privileges to create or modify databases and tables.
+Test inserting a student
+docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "INSERT INTO students (name, email, grade) VALUES ('Test Student', 'Test@example.com', 93.7);"
+docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "SELECT * FROM students;"
+
+Once we start to connect this to the backend, we will need to update the connection string in .env file
