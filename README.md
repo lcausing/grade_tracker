@@ -44,13 +44,19 @@ Once we get everything working and stable on dev branch, we will merge dev to ma
 
 
 # Helpful Git Commands
-git status # check the status of your working directory
-git branch -r # list remote branches
-git branch -a # list all branches (local and remote)
-git checkout <branch-name> # switch to a branch
-git checkout -b <new-branch-name> origin/<existing-remote-branch> # create and switch to a new branch from an existing remote branch
-git push --set-upstream origin <branch-name> # point your local branch to a remote branch
----
+## check the status of your working directory
+git status 
+## list remote branches
+git branch -r 
+## list all branches (local and remote)
+git branch -a 
+## switch to a branch
+git checkout <branch-name> 
+## create and switch to a new branch from an existing remote branch
+git checkout -b <new-branch-name> origin/<existing-remote-branch> 
+## point your local branch to a remote branch
+git push --set-upstream origin <branch-name> 
+
 
 # General Docker Commands:
 ## to build and start all services in detached mode
@@ -90,7 +96,8 @@ docker compose up -d mysql --build
 ## to start the mysql container without rebuilding the image
 docker compose up -d mysql 
 
-## Note about User: appuser should have enough privileges to create or modify databases and tables.
+## Note about mysql User: 
+appuser should have enough privileges to create or modify databases and tables.
 
 ## Test inserting a student from host:
 docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "INSERT INTO students (name, email, grade) VALUES ('Test Student', 'Test@example.com', 93.7);"
@@ -103,7 +110,7 @@ docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "SELECT *
 
 ## To stop mongodb container and remove the volume and all data
 docker compose rm -sf -v mongo 
-## -v will remove the volume and all data
+### -v will remove the volume and all data
 
 ## to stop mongo container without removing the volume and data
 docker compose stop mongo 
@@ -111,13 +118,13 @@ docker compose stop mongo
 docker compose rm -sf mongo 
 
 ## to run queries, use test_query.js file in mongo folder
-## Modify the file as needed to test different queries. Currently it has a sample insert and find query.
+Modify the file as needed to test different queries. Currently it has a sample insert and find query.
 
 # run the queries from test_query.js file:
 
-# if using Linux / Mac
+## if using Linux / Mac
 docker exec -i mongo-db mongosh < test_query.js
-# if using Windows Terminal/PowerShell
+## if using Windows Terminal/PowerShell
 Get-Content .\mongodb\test_query.js | docker exec -i mongo-db mongosh 
 
 
