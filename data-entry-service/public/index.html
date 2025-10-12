@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Entry</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- AUTHENTICATION PLACEHOLDER -->
+        <!-- TODO: Add login section when auth service is ready -->
+        
+        <h1>Grade Entry</h1>
+        
+        <form id="gradeForm">
+            <input type="text" id="subject" placeholder="Subject" required>
+            <input type="text" id="studentName" placeholder="Student Name" required>
+            <input type="email" id="studentEmail" placeholder="Student Email" required>
+            <input type="number" id="grade" placeholder="Grade (0-100)" min="0" max="100" required>
+            <button type="submit">Submit Grade</button>
+        </form>
+
+        <div id="message"></div>
+        
+        <button onclick="loadStudents()">View All Students</button>
+        <div id="students"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
