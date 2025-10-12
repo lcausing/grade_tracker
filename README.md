@@ -50,21 +50,74 @@ git branch -a # list all branches (local and remote)
 git checkout <branch-name> # switch to a branch
 git checkout -b <new-branch-name> origin/<existing-remote-branch> # create and switch to a new branch from an existing remote branch
 git push --set-upstream origin <branch-name> # point your local branch to a remote branch
+---
+
+General Docker Commands:
+# to build and start all services in detached mode
+docker compose up -d --build 
+# to start all services in detached mode without rebuilding
+docker compose up -d 
+
+# You'll have to wait at least 15 seconds for mysql and mongo to initialize before connecting to them.
+
+# to check the status of all services
+docker compose ps 
+# to view real-time logs of a specific service
+docker compose logs -f <service-name> 
+# to stop all services without removing volumes
+docker compose down 
+# to stop all services and remove volumes
+docker compose down -v 
+# to restart a specific service
+docker compose restart <service-name> 
+
 
 MySQL test commands:
 
-docker compose down -v # to stop and remove the mysql container and volume
-docker compose up -d --build # to start the mysql container in detached mode and build if necessary
-docker compose up -d # to start the mysql container without rebuilding the image
+# To stop mysql container and remove the volume and all data
+docker compose rm -sf -v mysql 
+# -sf will stop and remove the container, -v will remove the volume and all data
 
-appuser should have enough privileges to create or modify databases and tables.
+# To stop mysql container without removing the volume and data
+docker compose stop mysql
+# then remove it manually
+docker compose rm -sf mysql
 
-Test inserting a student from host:
+# To start mysql container:
+
+# to start the mysql container in detached mode and build if necessary
+docker compose up -d mysql --build 
+# to start the mysql container without rebuilding the image
+docker compose up -d mysql 
+
+# Note about User: appuser should have enough privileges to create or modify databases and tables.
+
+# Test inserting a student from host:
 docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "INSERT INTO students (name, email, grade) VALUES ('Test Student', 'Test@example.com', 93.7);"
+# Verifying the insertion:
 docker exec -it mysql-db mysql -uappuser -papppass -D grade_tracker -e "SELECT * FROM students;"
 
-To Close down the mysql container
-docker compose down -v # -v will remove the volume and all data
-docker compose down # without -v will keep the volume and data
+# Once we start to connect this to the backend, we will need to update the connection string in .env file
+---
+# MongoDB test commands:
 
-Once we start to connect this to the backend, we will need to update the connection string in .env file
+# To stop mongodb container and remove the volume and all data
+docker compose rm -sf -v mongo 
+# -v will remove the volume and all data
+
+# to stop mongo container without removing the volume and data
+docker compose stop mongo 
+# to remove the stopped mongo container
+docker compose rm -sf mongo 
+
+# to run queries, use test_query.js file in mongo folder
+# Modify the file as needed to test different queries. Currently it has a sample insert and find query.
+
+# run the queries from test_query.js file:
+
+# if using Linux / Mac
+docker exec -i mongo-db mongosh < test_query.js
+# if using Windows Terminal/PowerShell
+Get-Content .\mongodb\test_query.js | docker exec -i mongo-db mongosh 
+
+
