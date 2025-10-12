@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  mysql:
+    build: ./mysql
+    image: mysql:8.3.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: grade_tracker
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  mongodb:
+    build: ./mongodb
+    container_name: mongo-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mysql_data:
+  mongo_data:
