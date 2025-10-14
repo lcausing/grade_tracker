@@ -4,9 +4,9 @@ dotenv.config();
 
 const dbConfig = {
   host: process.env.MYSQL_HOST || "mysql", // docker-compose service name
-  user: process.env.MYSQL_USER || "root",
-  password: process.env.MYSQL_PASSWORD || "password",
-  database: process.env.MYSQL_DATABASE || "authdb",
+  user: process.env.MYSQL_USER || "appuser",
+  password: process.env.MYSQL_PASSWORD || "apppass",
+  database: process.env.MYSQL_DATABASE || "grade_tracker",
 };
 
 let connection;
