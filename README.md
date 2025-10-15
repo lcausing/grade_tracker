@@ -127,4 +127,99 @@ docker exec -i mongo-db mongosh < test_query.js
 ## if using Windows Terminal/PowerShell
 Get-Content .\mongodb\test_query.js | docker exec -i mongo-db mongosh 
 
+---
+
+# Data Entry Service (Node.js + Express)
+The Data Entry Service is a web application built with Node.js and Express that allows authenticated users to enter grade data into the system.
+
+## Features
+- **Web Interface**: Simple HTML form for entering grades
+- **Authentication Integration**: Calls authentication service before allowing submission
+- **MySQL Integration**: Writes grade data to MySQL database
+- **RESTful API**: Provides endpoints for grade operations
+- **Student Management**: View and manage student records
+
+## Quick Start
+
+### Using Docker (Recommended)
+```powershell
+# Build and start the service
+docker compose up -d data-entry-service --build
+
+# The service will be available at:
+# http://localhost:3001
+```
+
+### Local Development
+```powershell
+# Navigate to service directory
+cd data-entry-service
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Service available at: http://localhost:3001
+```
+
+## API Endpoints
+
+### Grade Operations (Authentication Required)
+- `POST /api/grades` - Submit a new grade
+- `GET /api/students` - Get all students and grades  
+- `GET /api/students/:id` - Get specific student
+
+### System
+- `GET /health` - Health check
+- `GET /` - Web interface
+
+## Usage Example
+
+1. **Start all required services**:
+   ```bash
+   docker compose up -d mysql auth-service data-entry-service
+   ```
+
+2. **Open web interface**: http://localhost:3001
+
+3. **Authenticate** with valid credentials
+
+4. **Submit grades** using the form:
+   - Student Name: "John Doe" 
+   - Student Email: "john@example.com"
+   - Subject: "Math"
+   - Grade: 85.5
+
+## Testing the Service
+
+```powershell
+# Run the test script
+cd data-entry-service
+node test.js
+
+# Manual API testing (with valid token)
+curl -X POST http://localhost:3001/api/grades \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"studentName":"Test User","studentEmail":"test@example.com","subject":"Math","grade":90}'
+```
+
+## Configuration
+
+Environment variables (configured in docker-compose.yml):
+- `DB_HOST`: MySQL database host
+- `DB_USER/DB_PASSWORD`: Database credentials  
+- `AUTH_SERVICE_URL`: Authentication service URL
+- `PORT`: Service port (default: 3001)
+
+## Dependencies
+
+- **Authentication Service**: Must be running on port 3000
+- **MySQL Database**: Must be accessible with proper schema
+- **Network**: Services communicate via Docker network
+
+If you want to see more detailed API documentation and advanced configuration: `data-entry-service/README.md`.
+
 
