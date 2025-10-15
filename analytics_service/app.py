@@ -9,9 +9,8 @@ app = Flask(__name__)
 def analytics():
     grades = get_grades()
     stats = compute_stats(grades)
-    store_analytics(stats)
-    print("DEBUG: stats =", stats)
-    return jsonify(stats)
 
+    # Store in MongoDB but ignore the inserted_id in response
+    store_analytics(stats)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003)
