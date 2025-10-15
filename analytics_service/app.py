@@ -12,5 +12,7 @@ def analytics():
 
     # Store in MongoDB but ignore the inserted_id in response
     store_analytics(stats)
+    return jsonify(stats), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003)
