@@ -39,9 +39,9 @@ services:
       container_name: analytics-service
       restart: always
       depends_on:
-        mysql-db:
+        mysql:
           condition: service_healthy
-        mongo-db:
+        mongodb:
           condition: service_healthy
       environment:
         MYSQL_HOST: mysql-db
