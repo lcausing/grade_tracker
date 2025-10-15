@@ -37,7 +37,6 @@ services:
   analytics-service:
       build: ./analytics_service
       container_name: analytics-service
-      restart: always
       depends_on:
         mysql:
           condition: service_healthy
