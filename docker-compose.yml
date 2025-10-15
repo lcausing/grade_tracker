@@ -33,6 +33,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  auth-service:
+    build: ./auth
+    container_name: auth-service
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./auth/.env
 
   analytics-service:
       build: ./analytics_service
