@@ -9,10 +9,14 @@ app = Flask(__name__)
 def analytics():
     grades = get_grades()
     stats = compute_stats(grades)
-
-    # Store in MongoDB but ignore the inserted_id in response
     store_analytics(stats)
-    return jsonify(stats), 200
+    # Return only the statistics, not the inserted_id from MongoDB
+    response = {
+        "mean": stats["mean"],
+        "median": stats["median"],
+        "mode": stats["mode"]
+    }
+    return jsonify(response), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5003)
