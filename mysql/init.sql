@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS students (
 
 INSERT INTO students (name, email, grade)
 VALUES ('Alice Johnson', 'alice@example.com', 89.5),
-       ('Bob Smith', 'bob@example.com', 76.0);
+       ('Bob Smith', 'bob@example.com', 76.0)
 ON DUPLICATE KEY UPDATE
     name = VALUES(name),
     email = VALUES(email),
