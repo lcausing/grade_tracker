@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from analytics_service.mysql_connector import get_grades
+from mysql_connector import get_grades
 from mongodb_connector import store_analytics
 from utils import compute_stats
 
