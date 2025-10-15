@@ -7,6 +7,5 @@ def compute_stats(grades):
     return {
         "mean": statistics.mean(grades),
         "median": statistics.median(grades),
-        "mode": statistics.mode(grades),
-        "timestamp": datetime.now().isoformat()
+        "mode": statistics.mode(grades)
     }
