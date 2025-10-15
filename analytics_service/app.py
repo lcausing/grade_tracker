@@ -10,6 +10,7 @@ def analytics():
     grades = get_grades()
     stats = compute_stats(grades)
     store_analytics(stats)
+    print("DEBUG: stats =", stats)
     return jsonify(stats)
 
 if __name__ == '__main__':
