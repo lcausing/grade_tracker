@@ -1,12 +1,7 @@
-node_modulesnode_modules
-
-npm-debug.lognpm-debug.log
-
-.env.git
-
-.git.gitignore
-
-.gitignoreREADME.md
+node_modules
+npm-debug.log
+.git
+.gitignore
 
 README.md.env
 

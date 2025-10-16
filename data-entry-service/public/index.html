@@ -8,23 +8,50 @@
 </head>
 <body>
     <div class="container">
-        <!-- AUTHENTICATION PLACEHOLDER -->
-        <!-- TODO: Add login section when auth service is ready -->
-        
-        <h1>Grade Entry</h1>
-        
-        <form id="gradeForm">
-            <input type="text" id="subject" placeholder="Subject" required>
+        <!-- Login Section -->
+        <div id="loginSection">
+            <h1>Grade Tracker</h1>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <div id="loginMessage"></div>
+        </div>
+
+        <!-- Main Application (hidden until logged in) -->
+        <div id="mainApp" style="display: none;">
+            <div class="header">
+                <h1>Grade Entry</h1>
+                <div class="user-info">
+                    <span id="userInfo"></span>
+                    <button onclick="logout()" class="logout-btn">Logout</button>
+                </div>
+            </div>
+            
+            <form id="gradeForm">
             <input type="text" id="studentName" placeholder="Student Name" required>
             <input type="email" id="studentEmail" placeholder="Student Email" required>
-            <input type="number" id="grade" placeholder="Grade (0-100)" min="0" max="100" required>
-            <button type="submit">Submit Grade</button>
+            <input type="text" id="dataType" placeholder="Subject" required>
+            <input type="number" id="dataValue" placeholder="Grade" step="0.01" required>
+            <button type="submit">Submit</button>
         </form>
 
-        <div id="message"></div>
-        
-        <button onclick="loadStudents()">View All Students</button>
-        <div id="students"></div>
+            <div id="message"></div>
+            
+            <!-- Navigation Section -->
+            <div class="navigation-section">
+                <h3>Actions</h3>
+                <div class="nav-buttons">
+                    <button onclick="loadStudents()" class="action-btn">View All Students</button>
+                    <button onclick="redirectToAnalytics()" class="action-btn analytics-btn">View Analytics</button>
+                    <button onclick="showResults()" class="action-btn results-btn">Show Results</button>
+                </div>
+            </div>
+            
+            <div id="students"></div>
+            <div id="results-section"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
