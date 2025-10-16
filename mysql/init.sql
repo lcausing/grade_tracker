@@ -27,26 +27,18 @@ CREATE TABLE IF NOT EXISTS grades (
     FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
 );
 
-INSERT INTO students (name, email, password_hash)
+INSERT INTO students (name, email, password)
 VALUES
-    ('Alice Johnson', 'alice@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('Bob Smith', 'bob@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('Charlie Brown', 'charlie@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('Diana Prince', 'diana@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('Ethan Hunt', 'ethan@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('Fiona Glenanne', 'fiona@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('George Costanza', 'george@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('Hannah Baker', 'hannah@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-'),
-    ('Ian Malcolm', 'ian@example.com', '$2b$12$KIXg6hQ5bL6c2s8ajzq1oeQyGJZp2zv3nH9p9c0k2u9g/1Ywz8e6W
-')
+    ('Alice Johnson', 'alice@example.com', 'password123'),
+    ('Bob Smith', 'bob@example.com', 'password123'),
+    ('Charlie Brown', 'charlie@example.com', 'password123'),
+    ('Diana Prince', 'diana@example.com', 'password123'),
+    ('Ethan Hunt', 'ethan@example.com', 'password123'),
+    ('Fiona Glenanne', 'fiona@example.com', 'password123'),
+    ('George Costanza', 'george@example.com', 'password123'),
+    ('Hannah Baker', 'hannah@example.com', 'password123'),
+    ('Ian Malcolm', 'ian@example.com', 'password123')
+
 ON DUPLICATE KEY UPDATE
     name = VALUES(name),
     password_hash = VALUES(password_hash);
