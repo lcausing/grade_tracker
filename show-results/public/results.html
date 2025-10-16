@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Grades Dashboard</title>
+  <style>
+    /* Global styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background: #4a90e2;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      text-align: left;
+    }
+
+    th {
+      background: #e1e8f0;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    tr {
+      transition: background 0.3s ease;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    tr:hover {
+      background: #f1f5f9;
+    }
+
+    /* Performance colors */
+    .performance-Excellent {
+      color: #2e7d32; /* Green */
+      font-weight: bold;
+    }
+
+    .performance-Good {
+      color: #f9a825; /* Amber */
+      font-weight: bold;
+    }
+
+    .performance-Poor {
+      color: #c62828; /* Red */
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        margin: 20px;
+        padding: 15px;
+      }
+
+      th, td {
+        padding: 10px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>Student Grades Dashboard</header>
+  <main>
+    <table id="grades-table">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Average Grade</th>
+          <th>Performance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be populated here -->
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    async function fetchResults() {
+      try {
+        const response = await fetch('/results'); // relative path, same server
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+        const tbody = document.querySelector('#grades-table tbody');
+        tbody.innerHTML = '';
+
+        data.forEach(student => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${student.student}</td>
+            <td>${student.avg_grade}</td>
+            <td class="performance-${student.performance.replace(/\s/g, '')}">
+              ${student.performance}
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch (err) {
+        console.error('Failed to fetch results:', err);
+      }
+    }
+
+    fetchResults();
+  </script>
+</body>
+</html>
