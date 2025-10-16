@@ -156,7 +156,7 @@ async function loadStudents() {
                 `<div class="student-card">
                     <strong>${student.name}</strong> (${student.email})<br>
                     <span class="subject-label">${student.type}:</span> 
-                    <span class="grade-value">${student.value}%</span>
+                    <span class="grade-value">${Math.round(student.value * 10) / 10}%</span>
                 </div>`
             ).join('');
             document.getElementById('students').innerHTML = html;
@@ -171,7 +171,7 @@ async function loadStudents() {
 // Navigation functions
 function redirectToAnalytics() {
     // Redirect to analytics service (assuming it runs on port 5003)
-    const analyticsUrl = 'http://localhost:5003';
+    const analyticsUrl = 'http://localhost:5003/analytics';
     
     // Store auth token for the analytics service (if needed)
     if (authToken) {
@@ -194,8 +194,8 @@ async function showResults() {
             const students = result.data;
             const totalStudents = students.length;
             const avgValue = (students.reduce((sum, student) => sum + parseFloat(student.value), 0) / totalStudents).toFixed(1);
-            const highestValue = Math.max(...students.map(s => parseFloat(s.value)));
-            const lowestValue = Math.min(...students.map(s => parseFloat(s.value)));
+            const highestValue = (Math.max(...students.map(s => parseFloat(s.value)))).toFixed(1);
+            const lowestValue = (Math.min(...students.map(s => parseFloat(s.value)))).toFixed(1);
             
             // Group by type
             const typeStats = students.reduce((acc, student) => {
@@ -251,12 +251,13 @@ async function showResults() {
             // Add detailed student list
             students.sort((a, b) => parseFloat(b.value) - parseFloat(a.value)).forEach(student => {
                 const value = parseFloat(student.value);
+                const roundedValue = (Math.round(value * 10) / 10).toFixed(1);
                 const valueClass = value >= 90 ? 'excellent' : value >= 80 ? 'good' : value >= 70 ? 'average' : 'below-average';
                 resultsHtml += `
                     <div class="student-result ${valueClass}">
                         <span class="student-name">${student.name}</span>
                         <span class="student-subject">${student.type}</span>
-                        <span class="student-grade">${student.value}%</span>
+                        <span class="student-grade">${roundedValue}%</span>
                     </div>`;
             });
             

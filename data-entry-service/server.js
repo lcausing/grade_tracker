@@ -87,7 +87,7 @@ app.get('/api/students', authenticateToken, async (req, res) => {
   try {
     let data;
     if (db) {
-      const [rows] = await db.execute('SELECT name, email, type, value FROM students ORDER BY name');
+      const [rows] = await db.execute('SELECT name, email, grade as value, "General" as type FROM students ORDER BY name');
       data = rows;
     } else {
       data = students;
@@ -104,8 +104,8 @@ app.post('/api/grades', authenticateToken, async (req, res) => {
     
     if (db) {
       await db.execute(
-        'INSERT INTO students (name, email, type, value) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE value = VALUES(value), type = VALUES(type)',
-        [studentName, studentEmail, dataType, parseFloat(dataValue)]
+        'INSERT INTO students (name, email, grade) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE grade = VALUES(grade)',
+        [studentName, studentEmail, parseFloat(dataValue)]
       );
     } else {
       const existing = students.find(s => s.email === studentEmail);
