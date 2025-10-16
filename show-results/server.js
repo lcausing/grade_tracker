@@ -1,28 +1,24 @@
-import express from "express";
-import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
-import { getResults, getStudentResults } from "./resultController.js";
-
-
-dotenv.config();
+const express = require('express');
+const axios = require('axios');
+require('dotenv').config();
 
 const app = express();
+const PORT = process.env.PORT || 3002;
+const ANALYTICS_URL = process.env.ANALYTICS_SERVICE_URL || 'http://analytics_service:5003';
+
+app.use(express.static('public'));
 app.use(express.json());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, "public")));
-
-//app.get("/", (req, res) => res.send("Show Results Service is running"));
-app.get("/results", getResults);
-app.get("/results/:studentName", getStudentResults);
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "results.html"));
+app.get('/api/analytics', async (req, res) => {
+  try {
+    const response = await axios.get(`${ANALYTICS_URL}/analytics`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching analytics:', error.message);
+    res.status(500).json({ message: 'Failed to fetch analytics data' });
+  }
 });
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`📊 Show Results Service running on port ${process.env.PORT || 5000}`);
+app.listen(PORT, () => {
+  console.log(`Show Results service running on port ${PORT}`);
 });

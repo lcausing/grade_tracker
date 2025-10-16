@@ -171,7 +171,7 @@ async function loadStudents() {
 // Navigation functions
 function redirectToAnalytics() {
     // Redirect to analytics service (assuming it runs on port 5003)
-    const analyticsUrl = 'http://localhost:5003/analytics';
+    const analyticsUrl = 'http://localhost:3002';
     
     // Store auth token for the analytics service (if needed)
     if (authToken) {
