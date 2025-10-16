@@ -209,7 +209,7 @@ async function showResults() {
             // Create results HTML
             let resultsHtml = `
                 <div class="results-container">
-                    <h3>📈 Grade Results Summary</h3>
+                    <h3>Grade Results Summary</h3>
                     <div class="stats-grid">
                         <div class="stat-card">
                             <h4>Total Students</h4>
