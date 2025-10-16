@@ -1,0 +1,92 @@
+services:
+  mysql:
+    build: ./mysql
+    image: mysql:8.3.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: grade_tracker
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uappuser", "-papppass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  mongodb:
+    build: ./mongodb
+    container_name: mongo-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  auth-service:
+    build: ./auth
+    container_name: auth-service
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./auth/.env
+    environment:
+      - DB_HOST=mysql-db
+
+  data-entry-service:
+    build: ./data-entry-service
+    container_name: data-entry-service
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+      auth-service:
+        condition: service_started
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./data-entry-service/.env
+    environment:
+      - DB_HOST=mysql-db
+      - AUTH_SERVICE_URL=http://auth-service:4000
+
+  analytics-service:
+      build: ./analytics_service
+      container_name: analytics-service
+      depends_on:
+        mysql:
+          condition: service_healthy
+        mongodb:
+          condition: service_healthy
+      environment:
+        MYSQL_HOST: mysql-db
+        MYSQL_USER: appuser
+        MYSQL_PASSWORD: apppass
+        MYSQL_DB: grade_tracker
+        MONGO_URI: mongodb://mongo-db:27017/
+      ports:
+        - "5003:5003"
+  show-results:
+    build: ./show-results
+    container_name: show-results
+    ports:
+      - "3002:3002"
+    depends_on:
+      - analytics-service
+    environment:
+      - ANALYTICS_SERVICE_URL=http://analytics-service:5003
+volumes:
+  mysql_data:
+  mongo_data:
