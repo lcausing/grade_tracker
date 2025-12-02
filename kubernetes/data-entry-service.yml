@@ -1,0 +1,74 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-entry-service
+  namespace: grade-tracker
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3001
+  selector:
+    app: data-entry-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-entry-service
+  namespace: grade-tracker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: data-entry-service
+  template:
+    metadata:
+      labels:
+        app: data-entry-service
+    spec:
+      containers:
+      - name: data-entry-service
+        image: grade-tracker:data-entry-latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3001
+        env:
+        - name: PORT
+          value: "3001"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: JWT_SECRET
+        - name: DB_HOST
+          value: mysql
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: MYSQL_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: MYSQL_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: MYSQL_DATABASE
+        - name: AUTH_SERVICE_URL
+          value: http://auth-service:4000
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3001
+          initialDelaySeconds: 20
+          periodSeconds: 10
