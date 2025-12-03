@@ -18,6 +18,9 @@
 
 ## Deploy
 ```bash
+
+# Update images first if needed
+
 # Apply in order to update configuration
 kubectl apply -f kubernetes/namespace-config.yml
 kubectl apply -f kubernetes/mysql.yml
