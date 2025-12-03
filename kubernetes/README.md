@@ -54,6 +54,8 @@ kubectl port-forward svc/auth-service 4000:80
 kubectl port-forward svc/data-entry-service 3001:3001
 kubectl port-forward svc/analytics-service 5003:80
 
+# Delete namespace to clean up everything
+kubectl delete namespace grade-tracker
 ```
 
 ## What it does
