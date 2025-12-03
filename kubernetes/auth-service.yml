@@ -7,7 +7,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 4000
+    - port: 4000
   selector:
     app: auth-service
 ---
@@ -27,46 +27,46 @@ spec:
         app: auth-service
     spec:
       containers:
-      - name: auth-service
-        image: grade-tracker:auth-latest
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 4000
-        env:
-        - name: PORT
-          value: "4000"
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: JWT_SECRET
-        - name: DB_HOST
-          value: mysql
-        - name: DB_USER
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: MYSQL_USER
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: MYSQL_PASSWORD
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: MYSQL_DATABASE
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 4000
-          initialDelaySeconds: 20
-          periodSeconds: 10
+        - name: auth-service
+          image: grade_tracker-auth-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4000
+          env:
+            - name: PORT
+              value: "4000"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: JWT_SECRET
+            - name: DB_HOST
+              value: mysql
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: MYSQL_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: MYSQL_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: MYSQL_DATABASE
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 4000
+            initialDelaySeconds: 20
+            periodSeconds: 10

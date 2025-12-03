@@ -7,8 +7,8 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 3002
-    targetPort: 3002
+    - port: 3002
+      targetPort: 3002
   selector:
     app: show-results
 ---
@@ -28,26 +28,26 @@ spec:
         app: show-results
     spec:
       containers:
-      - name: show-results
-        image: grade-tracker:show-results-latest
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 3002
-        env:
-        - name: PORT
-          value: "3002"
-        - name: ANALYTICS_SERVICE_URL
-          value: http://analytics-service:5003
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 3002
-          initialDelaySeconds: 20
-          periodSeconds: 10
+        - name: show-results
+          image: grade_tracker-show-results:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3002
+          env:
+            - name: PORT
+              value: "3002"
+            - name: ANALYTICS_SERVICE_URL
+              value: http://analytics-service:5003
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3002
+            initialDelaySeconds: 20
+            periodSeconds: 10

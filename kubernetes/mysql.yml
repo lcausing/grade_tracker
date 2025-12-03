@@ -6,7 +6,7 @@ metadata:
   namespace: grade-tracker
 spec:
   ports:
-  - port: 3306
+    - port: 3306
   selector:
     app: mysql
 ---
@@ -27,39 +27,39 @@ spec:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mysql:8.3.0
-        ports:
-        - containerPort: 3306
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: MYSQL_DATABASE
-        - name: MYSQL_USER
-          valueFrom:
-            configMapKeyRef:
-              name: app-config
-              key: MYSQL_USER
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: MYSQL_PASSWORD
-        volumeMounts:
-        - name: mysql-storage
-          mountPath: /var/lib/mysql
+        - name: mysql
+          image: mysql:8.3.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: MYSQL_PASSWORD
+          volumeMounts:
+            - name: mysql-storage
+              mountPath: /var/lib/mysql
   volumeClaimTemplates:
-  - metadata:
-      name: mysql-storage
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 5Gi
+    - metadata:
+        name: mysql-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi

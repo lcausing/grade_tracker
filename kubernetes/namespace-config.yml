@@ -12,7 +12,7 @@ metadata:
 stringData:
   MYSQL_ROOT_PASSWORD: rootpassword
   MYSQL_PASSWORD: apppass
-  JWT_SECRET: your-secret-key-change-in-prod
+  JWT_SECRET: 7f9a4c62b93f24ad9c6e4a91f3d94b12a!
   MONGO_URI: mongodb://mongodb:27017/
 ---
 apiVersion: v1
