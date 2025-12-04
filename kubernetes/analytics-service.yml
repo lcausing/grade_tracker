@@ -5,9 +5,9 @@ metadata:
   name: analytics-service
   namespace: grade-tracker
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
-    - port: 5003
+    - port: 3002
       targetPort: 5003
   selector:
     app: analytics-service
