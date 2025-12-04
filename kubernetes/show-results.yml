@@ -5,7 +5,7 @@ metadata:
   name: show-results
   namespace: grade-tracker
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 3002
       targetPort: 3002
@@ -29,8 +29,8 @@ spec:
     spec:
       containers:
         - name: show-results
-          image: grade_tracker-show-results:latest
-          imagePullPolicy: Never
+          image: lcausing/grade_tracker-show-results:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3002
           env:
