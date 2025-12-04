@@ -5,9 +5,11 @@ metadata:
   name: mongodb
   namespace: grade-tracker
 spec:
+  type: ClusterIP
   ports:
-    - port: 27017
-    - targetPort: 27017
+    - name: mongodb
+      port: 27017
+      targetPort: 27017
   selector:
     app: mongodb
 ---
