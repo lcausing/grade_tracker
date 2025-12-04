@@ -8,6 +8,7 @@ spec:
   type: ClusterIP
   ports:
     - port: 4000
+      targetPort: 4000
   selector:
     app: auth-service
 ---
@@ -28,8 +29,8 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: grade_tracker-auth-service:latest
-          imagePullPolicy: Never
+          image: lcausing/grade_tracker-auth-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4000
           env:
