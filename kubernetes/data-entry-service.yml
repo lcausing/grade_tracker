@@ -8,6 +8,7 @@ spec:
   type: LoadBalancer
   ports:
     - port: 3001
+      targetPort: 3001
   selector:
     app: data-entry-service
 ---
